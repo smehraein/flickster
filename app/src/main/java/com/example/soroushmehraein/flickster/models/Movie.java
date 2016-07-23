@@ -7,7 +7,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by soroushmehraein on 7/21/16.
+ * Author: soroushmehraein
+ * Project: Flickster
+ * Date: 7/21/16.
  */
 public class Movie {
 

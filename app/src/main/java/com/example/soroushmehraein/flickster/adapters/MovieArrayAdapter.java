@@ -58,7 +58,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         }
 
         // Populate image
-        Picasso.with(getContext()).load(imagePath).into(ivImage);
+        Picasso.with(getContext()).load(imagePath).placeholder(R.drawable.loading64).into(ivImage);
 
         // Return the view
         return convertView;

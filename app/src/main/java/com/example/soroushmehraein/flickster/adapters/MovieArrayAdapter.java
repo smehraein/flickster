@@ -1,6 +1,7 @@
 package com.example.soroushmehraein.flickster.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,10 +45,20 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
         TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
 
-        // Populate data
+        // Populate text data
         tvTitle.setText(movie.getOriginalTitle());
         tvOverview.setText(movie.getOverview());
-        Picasso.with(getContext()).load(movie.getPosterPath()).into(ivImage);
+
+        // Select image based on orientation
+        String imagePath;
+        if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            imagePath = movie.getPosterPath();
+        } else {
+            imagePath = movie.getBackdropPath();
+        }
+
+        // Populate image
+        Picasso.with(getContext()).load(imagePath).into(ivImage);
 
         // Return the view
         return convertView;

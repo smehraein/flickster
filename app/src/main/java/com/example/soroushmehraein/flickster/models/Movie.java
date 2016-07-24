@@ -26,6 +26,12 @@ public class Movie {
         this.overview = jsonObject.getString("overview");
     }
 
+    /**
+     * Converts a JSON array of movie information from TheMoviesDb to a list of Movie objects
+     *
+     * @param array JSON array of movie data
+     * @return ArrayList of Movie objects
+     */
     public static ArrayList<Movie> fromJSONArray(JSONArray array) {
         ArrayList<Movie> results = new ArrayList<>();
 
@@ -39,6 +45,10 @@ public class Movie {
         return results;
     }
 
+    /**
+     * Returns full url for image by appending IMAGE_URL_PREFIX
+     * @return Full url for poster image
+     */
     public String getPosterPath() {
         return String.format(IMAGE_URL_PREFIX, posterPath);
     }
@@ -51,6 +61,10 @@ public class Movie {
         return overview;
     }
 
+    /**
+     * Returns full url for image by appending IMAGE_URL_PREFIX
+     * @return Full url for backdrop image
+     */
     public String getBackdropPath() {
         return String.format(IMAGE_URL_PREFIX, backdropPath);
     }

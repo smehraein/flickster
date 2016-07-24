@@ -13,14 +13,15 @@ import java.util.ArrayList;
  */
 public class Movie {
 
+    public static final String INTENT_BACKDROP_IMAGE = "intent_movie_backdrop_image";
+    public static final String INTENT_TITLE = "intent_movie_title";
+    public static final String INTENT_OVERVIEW = "intent_movie_overview";
     private static final String POSTER_IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/w342/%s";
-    private static final String BACKDROP_IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/w780/%s";
     private String posterPath;
     private String backdropPath;
     private String originalTitle;
     private String overview;
     private Float voteAverage;
-
     public Movie(JSONObject jsonObject) throws JSONException {
         this.posterPath = jsonObject.getString("poster_path");
         this.backdropPath = jsonObject.getString("backdrop_path");
@@ -50,6 +51,7 @@ public class Movie {
 
     /**
      * Returns full url for image by appending POSTER_IMAGE_URL_PREFIX
+     *
      * @return Full url for poster image
      */
     public String getPosterPath() {
@@ -68,11 +70,24 @@ public class Movie {
      * Returns full url for image by appending POSTER_IMAGE_URL_PREFIX
      * @return Full url for backdrop image
      */
-    public String getBackdropPath() {
-        return String.format(BACKDROP_IMAGE_URL_PREFIX, backdropPath);
+    public String getBackdropPath(BACKDROP_IMAGE_SIZES sizeEnum) {
+        String baseUrl = getImageUrl(sizeEnum);
+        return baseUrl.concat(backdropPath);
     }
 
     public Float getVoteAverage() {
         return voteAverage;
+    }
+
+    private String getImageUrl(BACKDROP_IMAGE_SIZES sizeEnum) {
+        return String.format("https://image.tmdb.org/t/p/%s/", sizeEnum.name());
+    }
+
+    public enum BACKDROP_IMAGE_SIZES {
+        w300, w780, w1280
+    }
+
+    public enum POSTER_IMAGE_SIZES {
+        w185, w342, w500, w780
     }
 }

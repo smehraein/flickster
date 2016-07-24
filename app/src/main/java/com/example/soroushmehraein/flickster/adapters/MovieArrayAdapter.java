@@ -80,7 +80,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             imagePath = movie.getPosterPath();
         } else {
-            imagePath = movie.getBackdropPath();
+            imagePath = movie.getBackdropPath(Movie.BACKDROP_IMAGE_SIZES.w780);
         }
 
         // Populate image
@@ -108,7 +108,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         }
 
         // Populate image
-        Picasso.with(getContext()).load(movie.getBackdropPath()).placeholder(R.drawable.loading64).transform(new RoundedCornersTransformation(5, 0)).into(popularHolder.image);
+        String imagePath = movie.getBackdropPath(Movie.BACKDROP_IMAGE_SIZES.w780);
+        Picasso.with(getContext()).load(imagePath).placeholder(R.drawable.loading64).transform(new RoundedCornersTransformation(5, 0)).into(popularHolder.image);
 
         // Return the view
         return convertView;

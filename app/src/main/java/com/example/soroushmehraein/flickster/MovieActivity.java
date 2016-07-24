@@ -1,8 +1,11 @@
 package com.example.soroushmehraein.flickster;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.soroushmehraein.flickster.adapters.MovieArrayAdapter;
@@ -25,6 +28,7 @@ public class MovieActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
     private ArrayList<Movie> movies;
     private MovieArrayAdapter movieAdapter;
+    private ListView lvItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +37,30 @@ public class MovieActivity extends AppCompatActivity {
 
         configureSwipeRefreshContainer();
 
-        ListView lvItems = (ListView) findViewById(R.id.lvMovies);
+        lvItems = (ListView) findViewById(R.id.lvMovies);
         movies = new ArrayList<>();
         movieAdapter = new MovieArrayAdapter(this, movies);
         assert lvItems != null;
         lvItems.setAdapter(movieAdapter);
 
+        setupViewListener();
+
         fetchMovieDataAsync();
+    }
+
+
+    private void setupViewListener() {
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Movie selectedMovie = movies.get(position);
+                Intent intent = new Intent(MovieActivity.this, MovieDetailsActivity.class);
+                intent.putExtra(Movie.INTENT_BACKDROP_IMAGE, selectedMovie.getBackdropPath(Movie.BACKDROP_IMAGE_SIZES.w780));
+                intent.putExtra(Movie.INTENT_TITLE, selectedMovie.getOriginalTitle());
+                intent.putExtra(Movie.INTENT_OVERVIEW, selectedMovie.getOverview());
+                startActivity(intent);
+            }
+        });
     }
 
     /**

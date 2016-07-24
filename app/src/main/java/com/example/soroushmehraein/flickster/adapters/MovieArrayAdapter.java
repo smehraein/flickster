@@ -15,6 +15,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 /**
  * Author: soroushmehraein
  * Project: Flickster
@@ -82,7 +84,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         }
 
         // Populate image
-        Picasso.with(getContext()).load(imagePath).placeholder(R.drawable.loading64).into(regularHolder.image);
+        Picasso.with(getContext()).load(imagePath).placeholder(R.drawable.loading64).transform(new RoundedCornersTransformation(15, 0)).into(regularHolder.image);
 
         // Return the view
         return convertView;
@@ -106,7 +108,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         }
 
         // Populate image
-        Picasso.with(getContext()).load(movie.getBackdropPath()).placeholder(R.drawable.loading64).into(popularHolder.image);
+        Picasso.with(getContext()).load(movie.getBackdropPath()).placeholder(R.drawable.loading64).transform(new RoundedCornersTransformation(5, 0)).into(popularHolder.image);
 
         // Return the view
         return convertView;

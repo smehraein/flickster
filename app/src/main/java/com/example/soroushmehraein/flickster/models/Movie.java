@@ -13,17 +13,20 @@ import java.util.ArrayList;
  */
 public class Movie {
 
-    private static final String IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/w342/%s";
+    private static final String POSTER_IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/w342/%s";
+    private static final String BACKDROP_IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/w780/%s";
     private String posterPath;
     private String backdropPath;
     private String originalTitle;
     private String overview;
+    private Float voteAverage;
 
     public Movie(JSONObject jsonObject) throws JSONException {
         this.posterPath = jsonObject.getString("poster_path");
         this.backdropPath = jsonObject.getString("backdrop_path");
         this.originalTitle = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
+        this.voteAverage = Float.valueOf(jsonObject.getString("vote_average"));
     }
 
     /**
@@ -46,11 +49,11 @@ public class Movie {
     }
 
     /**
-     * Returns full url for image by appending IMAGE_URL_PREFIX
+     * Returns full url for image by appending POSTER_IMAGE_URL_PREFIX
      * @return Full url for poster image
      */
     public String getPosterPath() {
-        return String.format(IMAGE_URL_PREFIX, posterPath);
+        return String.format(POSTER_IMAGE_URL_PREFIX, posterPath);
     }
 
     public String getOriginalTitle() {
@@ -62,10 +65,14 @@ public class Movie {
     }
 
     /**
-     * Returns full url for image by appending IMAGE_URL_PREFIX
+     * Returns full url for image by appending POSTER_IMAGE_URL_PREFIX
      * @return Full url for backdrop image
      */
     public String getBackdropPath() {
-        return String.format(IMAGE_URL_PREFIX, backdropPath);
+        return String.format(BACKDROP_IMAGE_URL_PREFIX, backdropPath);
+    }
+
+    public Float getVoteAverage() {
+        return voteAverage;
     }
 }

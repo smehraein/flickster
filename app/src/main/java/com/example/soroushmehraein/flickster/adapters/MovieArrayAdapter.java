@@ -26,28 +26,52 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if (getItem(position).getVoteAverage() > 5.00) {
+            return MOVIE_TYPES.POPULAR_MOVIE.ordinal();
+        } else {
+            return MOVIE_TYPES.REGULAR_MOVIE.ordinal();
+        }
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return MOVIE_TYPES.values().length;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        int viewType = getItemViewType(position);
+        boolean isPortrait = getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        if (viewType == MOVIE_TYPES.POPULAR_MOVIE.ordinal() && isPortrait) {
+            return getPopularMovieView(position, convertView, parent);
+        } else {
+            return getRegularMovieView(position, convertView, parent);
+        }
+    }
+
+    private View getRegularMovieView(int position, View convertView, ViewGroup parent) {
         // Get data item for this position
         Movie movie = getItem(position);
 
+        RegularHolder regularHolder;
+
         // Check if the existing view is being reused
         if (convertView == null) {
+            regularHolder = new RegularHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_movie, parent, false);
+            regularHolder.title = (TextView) convertView.findViewById(R.id.tvTitle);
+            regularHolder.overview = (TextView) convertView.findViewById(R.id.tvOverview);
+            regularHolder.image = (ImageView) convertView.findViewById(R.id.ivMovieImage);
+            convertView.setTag(regularHolder);
+        } else {
+            regularHolder = (RegularHolder) convertView.getTag();
         }
 
-        // Find image view
-        ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
-
-        // Clear out last image
-        ivImage.setImageResource(0);
-
-        TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
-        TextView tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-
         // Populate text data
-        tvTitle.setText(movie.getOriginalTitle());
-        tvOverview.setText(movie.getOverview());
+        regularHolder.title.setText(movie.getOriginalTitle());
+        regularHolder.overview.setText(movie.getOverview());
 
         // Select image based on orientation
         String imagePath;
@@ -58,10 +82,47 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         }
 
         // Populate image
-        Picasso.with(getContext()).load(imagePath).placeholder(R.drawable.loading64).into(ivImage);
+        Picasso.with(getContext()).load(imagePath).placeholder(R.drawable.loading64).into(regularHolder.image);
 
         // Return the view
         return convertView;
+    }
 
+    private View getPopularMovieView(int position, View convertView, ViewGroup parent) {
+        // Get data item for this position
+        Movie movie = getItem(position);
+
+        PopularHolder popularHolder;
+
+        // Check if the existing view is being reused
+        if (convertView == null) {
+            popularHolder = new PopularHolder();
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.item_popular_movie, parent, false);
+            popularHolder.image = (ImageView) convertView.findViewById(R.id.ivPopularMovieImage);
+            convertView.setTag(popularHolder);
+        } else {
+            popularHolder = (PopularHolder) convertView.getTag();
+        }
+
+        // Populate image
+        Picasso.with(getContext()).load(movie.getBackdropPath()).placeholder(R.drawable.loading64).into(popularHolder.image);
+
+        // Return the view
+        return convertView;
+    }
+
+    private enum MOVIE_TYPES {
+        POPULAR_MOVIE, REGULAR_MOVIE
+    }
+
+    private static class RegularHolder {
+        TextView title;
+        TextView overview;
+        ImageView image;
+    }
+
+    private static class PopularHolder {
+        ImageView image;
     }
 }

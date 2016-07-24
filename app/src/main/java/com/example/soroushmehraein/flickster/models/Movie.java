@@ -16,6 +16,7 @@ public class Movie {
     public static final String INTENT_BACKDROP_IMAGE = "intent_movie_backdrop_image";
     public static final String INTENT_TITLE = "intent_movie_title";
     public static final String INTENT_OVERVIEW = "intent_movie_overview";
+    public static final String INTENT_RATING = "intent_movie_rating";
     private static final String POSTER_IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/w342/%s";
     private String posterPath;
     private String backdropPath;

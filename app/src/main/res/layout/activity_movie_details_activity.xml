@@ -25,11 +25,18 @@
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <RatingBar
+        android:id="@+id/rbMovieRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvDetailTitle"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:id="@+id/tvDetailOverview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDetailTitle"
+        android:layout_below="@+id/rbMovieRating"
         android:layout_centerHorizontal="true"
         android:text="New Text" />
 

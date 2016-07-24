@@ -25,10 +25,10 @@ public class MovieActivity extends AppCompatActivity {
 
     private static final String API_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
-    private SwipeRefreshLayout swipeContainer;
-    private ArrayList<Movie> movies;
-    private MovieArrayAdapter movieAdapter;
-    private ListView lvItems;
+    SwipeRefreshLayout swipeContainer;
+    ArrayList<Movie> movies;
+    MovieArrayAdapter movieAdapter;
+    ListView lvItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class MovieActivity extends AppCompatActivity {
                 intent.putExtra(Movie.INTENT_BACKDROP_IMAGE, selectedMovie.getBackdropPath(Movie.BACKDROP_IMAGE_SIZES.w780));
                 intent.putExtra(Movie.INTENT_TITLE, selectedMovie.getOriginalTitle());
                 intent.putExtra(Movie.INTENT_OVERVIEW, selectedMovie.getOverview());
+                intent.putExtra(Movie.INTENT_RATING, selectedMovie.getVoteAverage());
                 startActivity(intent);
             }
         });

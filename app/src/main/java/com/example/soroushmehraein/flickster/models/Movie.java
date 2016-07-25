@@ -73,7 +73,7 @@ public class Movie {
      */
     public String getPosterPath(POSTER_IMAGE_SIZES sizeEnum) {
         String baseUrl = String.format(IMAGE_URL_PREFIX, sizeEnum.name());
-        return baseUrl.concat(backdropPath);
+        return baseUrl.concat(posterPath);
     }
 
     /**

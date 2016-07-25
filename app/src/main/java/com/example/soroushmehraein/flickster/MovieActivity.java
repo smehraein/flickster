@@ -9,13 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.soroushmehraein.flickster.adapters.MovieArrayAdapter;
+import com.example.soroushmehraein.flickster.clients.MovieDbClient;
 import com.example.soroushmehraein.flickster.models.Movie;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -65,23 +63,15 @@ public class MovieActivity extends AppCompatActivity {
     }
 
     /**
-     * Fetches movie data from TheMovieDB API, adds it to the 'movies' ArrayList and notifies the adapter.
+     * Fetches movie data from MovieDClient, adds it to the 'movies' ArrayList and notifies the adapter.
      */
     private void fetchMovieDataAsync() {
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        client.get(API_URL, new JsonHttpResponseHandler() {
+        MovieDbClient.getMoviesListAsync(new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONArray movieJSONResults;
-                try {
-                    movieJSONResults = response.getJSONArray("results");
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     movies.clear();
-                    movies.addAll(Movie.fromJSONArray(movieJSONResults));
+                movies.addAll(Movie.fromJSONArray(response));
                     movieAdapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
             }
         });
     }

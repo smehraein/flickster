@@ -1,5 +1,7 @@
 package com.example.soroushmehraein.flickster.models;
 
+import com.example.soroushmehraein.flickster.clients.MovieDbClient;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,17 +20,22 @@ public class Movie {
     public static final String INTENT_OVERVIEW = "intent_movie_overview";
     public static final String INTENT_RATING = "intent_movie_rating";
     private static final String POSTER_IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/w342/%s";
+    private int id;
     private String posterPath;
     private String backdropPath;
     private String originalTitle;
     private String overview;
     private Float voteAverage;
-    public Movie(JSONObject jsonObject) throws JSONException {
+    private String videoKey;
+
+    private Movie(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getInt("id");
         this.posterPath = jsonObject.getString("poster_path");
         this.backdropPath = jsonObject.getString("backdrop_path");
         this.originalTitle = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
-        this.voteAverage = Float.valueOf(jsonObject.getString("vote_average"));
+        this.voteAverage = (float) jsonObject.getDouble("vote_average");
+        MovieDbClient.getAndSetVideoKey(this);
     }
 
     /**
@@ -50,6 +57,10 @@ public class Movie {
         return results;
     }
 
+    public int getId() {
+        return id;
+    }
+
     /**
      * Returns full url for image by appending POSTER_IMAGE_URL_PREFIX
      *
@@ -69,6 +80,7 @@ public class Movie {
 
     /**
      * Returns full url for image by appending POSTER_IMAGE_URL_PREFIX
+     *
      * @return Full url for backdrop image
      */
     public String getBackdropPath(BACKDROP_IMAGE_SIZES sizeEnum) {
@@ -82,6 +94,14 @@ public class Movie {
 
     private String getImageUrl(BACKDROP_IMAGE_SIZES sizeEnum) {
         return String.format("https://image.tmdb.org/t/p/%s/", sizeEnum.name());
+    }
+
+    public String getVideoKey() {
+        return videoKey;
+    }
+
+    public void setVideoKey(String videoKey) {
+        this.videoKey = videoKey;
     }
 
     public enum BACKDROP_IMAGE_SIZES {

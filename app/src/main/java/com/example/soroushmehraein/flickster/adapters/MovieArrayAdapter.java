@@ -77,7 +77,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         // Select image based on orientation
         String imagePath;
         if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            imagePath = movie.getPosterPath();
+            imagePath = movie.getPosterPath(Movie.POSTER_IMAGE_SIZES.w342);
         } else {
             imagePath = movie.getBackdropPath(Movie.BACKDROP_IMAGE_SIZES.w780);
         }

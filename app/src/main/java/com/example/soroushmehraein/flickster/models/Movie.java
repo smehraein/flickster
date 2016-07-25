@@ -17,7 +17,7 @@ public class Movie {
 
     public static final String INTENT_POSITION = "intent_movie_position";
     public static final String INTENT_VIDEO_KEY = "intent_movie_video_key";
-    private static final String POSTER_IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/w342/%s";
+    private static final String IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/%s";
     private static final float POPULAR_RATING_THRESHOLD = (float) 5.0;
     public static ArrayList<Movie> fetchedMovies = new ArrayList<>();
     private int id;
@@ -67,21 +67,22 @@ public class Movie {
     }
 
     /**
-     * Returns full url for image by appending POSTER_IMAGE_URL_PREFIX
+     * Returns full url for poster image given a size
      *
      * @return Full url for poster image
      */
-    public String getPosterPath() {
-        return String.format(POSTER_IMAGE_URL_PREFIX, posterPath);
+    public String getPosterPath(POSTER_IMAGE_SIZES sizeEnum) {
+        String baseUrl = String.format(IMAGE_URL_PREFIX, sizeEnum.name());
+        return baseUrl.concat(backdropPath);
     }
 
     /**
-     * Returns full url for image by appending POSTER_IMAGE_URL_PREFIX
+     * Returns full url for backdrop image given a size
      *
      * @return Full url for backdrop image
      */
     public String getBackdropPath(BACKDROP_IMAGE_SIZES sizeEnum) {
-        String baseUrl = String.format("https://image.tmdb.org/t/p/%s/", sizeEnum.name());
+        String baseUrl = String.format(IMAGE_URL_PREFIX, sizeEnum.name());
         return baseUrl.concat(backdropPath);
     }
 

@@ -51,7 +51,7 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MovieDetailsActivity.this, TrailerActivity.class);
-                intent.putExtra(Movie.INTENT_VIDEO_KEY, movie.getVideoKey());
+                intent.putExtra(Movie.INTENT_VIDEO_KEY, videoKey);
                 startActivity(intent);
             }
         });

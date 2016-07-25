@@ -19,7 +19,7 @@ public class Movie {
     public static final String INTENT_VIDEO_KEY = "intent_movie_video_key";
     private static final String IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/%s";
     private static final float POPULAR_RATING_THRESHOLD = (float) 5.0;
-    public static ArrayList<Movie> fetchedMovies = new ArrayList<>();
+    public static final ArrayList<Movie> fetchedMovies = new ArrayList<>();
     private int id;
     private String posterPath;
     private String backdropPath;

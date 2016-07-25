@@ -15,16 +15,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
-
 import cz.msebera.android.httpclient.Header;
 
 public class MovieActivity extends AppCompatActivity {
 
-    private static final String API_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-
     SwipeRefreshLayout swipeContainer;
-    ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
     ListView lvItems;
 
@@ -36,8 +31,7 @@ public class MovieActivity extends AppCompatActivity {
         configureSwipeRefreshContainer();
 
         lvItems = (ListView) findViewById(R.id.lvMovies);
-        movies = new ArrayList<>();
-        movieAdapter = new MovieArrayAdapter(this, movies);
+        movieAdapter = new MovieArrayAdapter(this, Movie.fetchedMovies);
         assert lvItems != null;
         lvItems.setAdapter(movieAdapter);
 
@@ -51,13 +45,8 @@ public class MovieActivity extends AppCompatActivity {
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Movie selectedMovie = movies.get(position);
                 Intent intent = new Intent(MovieActivity.this, MovieDetailsActivity.class);
-                intent.putExtra(Movie.INTENT_BACKDROP_IMAGE, selectedMovie.getBackdropPath(Movie.BACKDROP_IMAGE_SIZES.w780));
-                intent.putExtra(Movie.INTENT_TITLE, selectedMovie.getOriginalTitle());
-                intent.putExtra(Movie.INTENT_OVERVIEW, selectedMovie.getOverview());
-                intent.putExtra(Movie.INTENT_RATING, selectedMovie.getVoteAverage());
-                intent.putExtra(Movie.INTENT_VIDEO_KEY, selectedMovie.getVideoKey());
+                intent.putExtra(Movie.INTENT_POSITION, position);
                 startActivity(intent);
             }
         });
@@ -70,9 +59,9 @@ public class MovieActivity extends AppCompatActivity {
         MovieDbClient.getMoviesListAsync(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                    movies.clear();
-                movies.addAll(Movie.fromJSONArray(response));
-                    movieAdapter.notifyDataSetChanged();
+                Movie.fetchedMovies.clear();
+                Movie.fetchedMovies.addAll(Movie.fromJSONArray(response));
+                movieAdapter.notifyDataSetChanged();
             }
         });
     }

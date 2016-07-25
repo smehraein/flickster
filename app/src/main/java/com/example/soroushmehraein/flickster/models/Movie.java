@@ -15,12 +15,10 @@ import java.util.ArrayList;
  */
 public class Movie {
 
-    public static final String INTENT_BACKDROP_IMAGE = "intent_movie_backdrop_image";
-    public static final String INTENT_TITLE = "intent_movie_title";
-    public static final String INTENT_OVERVIEW = "intent_movie_overview";
-    public static final String INTENT_RATING = "intent_movie_rating";
+    public static final String INTENT_POSITION = "intent_movie_position";
     public static final String INTENT_VIDEO_KEY = "intent_movie_video_key";
     private static final String POSTER_IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/w342/%s";
+    public static ArrayList<Movie> fetchedMovies = new ArrayList<>();
     private int id;
     private String posterPath;
     private String backdropPath;

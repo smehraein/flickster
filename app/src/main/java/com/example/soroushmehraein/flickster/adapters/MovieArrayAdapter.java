@@ -29,7 +29,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
     @Override
     public int getItemViewType(int position) {
-        if (getItem(position).getVoteAverage() > 5.00) {
+        if (getItem(position).isPopular()) {
             return MOVIE_TYPES.POPULAR_MOVIE.ordinal();
         } else {
             return MOVIE_TYPES.REGULAR_MOVIE.ordinal();
@@ -44,8 +44,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         int viewType = getItemViewType(position);
-        boolean isPortrait = getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-        if (viewType == MOVIE_TYPES.POPULAR_MOVIE.ordinal() && isPortrait) {
+        if (viewType == MOVIE_TYPES.POPULAR_MOVIE.ordinal()) {
             return getPopularMovieView(position, convertView, parent);
         } else {
             return getRegularMovieView(position, convertView, parent);
@@ -109,7 +108,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
         // Populate image
         String imagePath = movie.getBackdropPath(Movie.BACKDROP_IMAGE_SIZES.w780);
-        Picasso.with(getContext()).load(imagePath).placeholder(R.drawable.loading64).transform(new RoundedCornersTransformation(5, 0)).into(popularHolder.image);
+        Picasso.with(getContext()).load(imagePath).placeholder(R.drawable.loading64).transform(new RoundedCornersTransformation(15, 0)).into(popularHolder.image);
 
         // Return the view
         return convertView;

@@ -41,13 +41,24 @@ public class MovieActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * If a movie is not popular, a click will send the user to the details page.
+     * If a movie is popular, a click will send the user to the trailer
+     */
     private void setupViewListener() {
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MovieActivity.this, MovieDetailsActivity.class);
-                intent.putExtra(Movie.INTENT_POSITION, position);
-                startActivity(intent);
+                Movie movie = Movie.fetchedMovies.get(position);
+                if (movie.isPopular()) {
+                    Intent intent = new Intent(MovieActivity.this, TrailerActivity.class);
+                    intent.putExtra(Movie.INTENT_VIDEO_KEY, movie.getVideoKey());
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MovieActivity.this, MovieDetailsActivity.class);
+                    intent.putExtra(Movie.INTENT_POSITION, position);
+                    startActivity(intent);
+                }
             }
         });
     }

@@ -18,6 +18,7 @@ public class Movie {
     public static final String INTENT_POSITION = "intent_movie_position";
     public static final String INTENT_VIDEO_KEY = "intent_movie_video_key";
     private static final String POSTER_IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/w342/%s";
+    private static final float POPULAR_RATING_THRESHOLD = (float) 5.0;
     public static ArrayList<Movie> fetchedMovies = new ArrayList<>();
     private int id;
     private String posterPath;
@@ -54,6 +55,15 @@ public class Movie {
             }
         }
         return results;
+    }
+
+    /**
+     * Indicates if a movie is popular (specified by POPULAR_RATING_THRESHOLD)
+     *
+     * @return Boolean indicating if a movie is popular
+     */
+    public boolean isPopular() {
+        return voteAverage > POPULAR_RATING_THRESHOLD;
     }
 
     /**

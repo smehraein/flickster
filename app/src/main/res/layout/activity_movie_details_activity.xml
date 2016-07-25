@@ -9,10 +9,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MovieDetailsActivity">
 
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/ytDetailPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.google.android.youtube.player.YouTubePlayerView>
+
     <ImageView
         android:id="@+id/ivDetailBackdrop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ytDetailPlayer"
         android:contentDescription="@string/moviebackdropimage"
         tools:src="@mipmap/ic_launcher" />
 

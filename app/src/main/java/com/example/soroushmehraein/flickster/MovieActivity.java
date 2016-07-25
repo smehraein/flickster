@@ -57,6 +57,7 @@ public class MovieActivity extends AppCompatActivity {
                 intent.putExtra(Movie.INTENT_TITLE, selectedMovie.getOriginalTitle());
                 intent.putExtra(Movie.INTENT_OVERVIEW, selectedMovie.getOverview());
                 intent.putExtra(Movie.INTENT_RATING, selectedMovie.getVoteAverage());
+                intent.putExtra(Movie.INTENT_VIDEO_KEY, selectedMovie.getVideoKey());
                 startActivity(intent);
             }
         });

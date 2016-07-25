@@ -19,6 +19,7 @@ public class Movie {
     public static final String INTENT_TITLE = "intent_movie_title";
     public static final String INTENT_OVERVIEW = "intent_movie_overview";
     public static final String INTENT_RATING = "intent_movie_rating";
+    public static final String INTENT_VIDEO_KEY = "intent_movie_video_key";
     private static final String POSTER_IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/w342/%s";
     private int id;
     private String posterPath;
@@ -57,10 +58,6 @@ public class Movie {
         return results;
     }
 
-    public int getId() {
-        return id;
-    }
-
     /**
      * Returns full url for image by appending POSTER_IMAGE_URL_PREFIX
      *
@@ -68,6 +65,16 @@ public class Movie {
      */
     public String getPosterPath() {
         return String.format(POSTER_IMAGE_URL_PREFIX, posterPath);
+    }
+
+    /**
+     * Returns full url for image by appending POSTER_IMAGE_URL_PREFIX
+     *
+     * @return Full url for backdrop image
+     */
+    public String getBackdropPath(BACKDROP_IMAGE_SIZES sizeEnum) {
+        String baseUrl = String.format("https://image.tmdb.org/t/p/%s/", sizeEnum.name());
+        return baseUrl.concat(backdropPath);
     }
 
     public String getOriginalTitle() {
@@ -78,22 +85,12 @@ public class Movie {
         return overview;
     }
 
-    /**
-     * Returns full url for image by appending POSTER_IMAGE_URL_PREFIX
-     *
-     * @return Full url for backdrop image
-     */
-    public String getBackdropPath(BACKDROP_IMAGE_SIZES sizeEnum) {
-        String baseUrl = getImageUrl(sizeEnum);
-        return baseUrl.concat(backdropPath);
-    }
-
     public Float getVoteAverage() {
         return voteAverage;
     }
 
-    private String getImageUrl(BACKDROP_IMAGE_SIZES sizeEnum) {
-        return String.format("https://image.tmdb.org/t/p/%s/", sizeEnum.name());
+    public int getId() {
+        return id;
     }
 
     public String getVideoKey() {

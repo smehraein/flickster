@@ -15,10 +15,13 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
 import cz.msebera.android.httpclient.Header;
 
 public class MovieActivity extends AppCompatActivity {
 
+    ArrayList<Movie> movies;
     SwipeRefreshLayout swipeContainer;
     MovieArrayAdapter movieAdapter;
     ListView lvItems;
@@ -29,9 +32,9 @@ public class MovieActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie);
 
         configureSwipeRefreshContainer();
-
+        movies = new ArrayList<>();
         lvItems = (ListView) findViewById(R.id.lvMovies);
-        movieAdapter = new MovieArrayAdapter(this, Movie.fetchedMovies);
+        movieAdapter = new MovieArrayAdapter(this, movies);
         assert lvItems != null;
         lvItems.setAdapter(movieAdapter);
 
@@ -49,14 +52,14 @@ public class MovieActivity extends AppCompatActivity {
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Movie movie = Movie.fetchedMovies.get(position);
+                Movie movie = movies.get(position);
                 if (movie.isPopular()) {
                     Intent intent = new Intent(MovieActivity.this, TrailerActivity.class);
                     intent.putExtra(Movie.INTENT_VIDEO_KEY, movie.getVideoKey());
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(MovieActivity.this, MovieDetailsActivity.class);
-                    intent.putExtra(Movie.INTENT_POSITION, position);
+                    intent.putExtra(Movie.INTENT_MOVIE, movie);
                     startActivity(intent);
                 }
             }
@@ -70,8 +73,8 @@ public class MovieActivity extends AppCompatActivity {
         MovieDbClient.getMoviesListAsync(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Movie.fetchedMovies.clear();
-                Movie.fetchedMovies.addAll(Movie.fromJSONArray(response));
+                movies.clear();
+                movies.addAll(Movie.fromJSONArray(response));
                 movieAdapter.notifyDataSetChanged();
             }
         });

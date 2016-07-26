@@ -26,8 +26,7 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_movie_details_activity);
 
         // Extract movie and values from intent
-        int position = getIntent().getIntExtra(Movie.INTENT_POSITION, 0);
-        final Movie movie = Movie.fetchedMovies.get(position);
+        Movie movie = (Movie) getIntent().getSerializableExtra(Movie.INTENT_MOVIE);
         String imagePath = movie.getBackdropPath(Movie.BACKDROP_IMAGE_SIZES.w780);
         String title = movie.getOriginalTitle();
         String overview = movie.getOverview();

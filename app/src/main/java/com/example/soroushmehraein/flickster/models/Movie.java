@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -13,13 +14,12 @@ import java.util.ArrayList;
  * Project: Flickster
  * Date: 7/21/16.
  */
-public class Movie {
+public class Movie implements Serializable {
 
-    public static final String INTENT_POSITION = "intent_movie_position";
+    public static final String INTENT_MOVIE = "intent_movie";
     public static final String INTENT_VIDEO_KEY = "intent_movie_video_key";
     private static final String IMAGE_URL_PREFIX = "https://image.tmdb.org/t/p/%s";
     private static final float POPULAR_RATING_THRESHOLD = (float) 5.0;
-    public static final ArrayList<Movie> fetchedMovies = new ArrayList<>();
     private int id;
     private String posterPath;
     private String backdropPath;
